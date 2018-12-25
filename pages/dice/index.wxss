@@ -1,0 +1,52 @@
+/**index.wxss**/
+.flex-wrp {
+  display: flex;
+  flex-direction:row;
+}
+
+.flex-item {
+  flex-grow: 1;
+}
+
+.face-input {
+  border-radius: 5dp;
+  border-color: blue;
+  box-shadow: 2px;
+}
+
+.dice {
+  padding:5px;
+  background: lightblue;
+}
+.faces {
+}
+.face-input {
+  margin-left:2px;
+  text-align: center;
+  background: white;
+  border-color: #ff0000;
+  border-width: 1px;
+}
+.del-dice {
+  height: 25px;
+  width: 50px;
+  text-align: center;
+}
+.loading-mask {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 100;
+  background: rgba(1,1,1,0.5)
+}
+.loading-text {
+  display: inline-block;
+  width: 100%;
+  line-height: 200px;
+  text-align: center;
+  color: white;
+  font-size: 50rpx;
+}
+.result-text {
+  text-align: left;
+}
