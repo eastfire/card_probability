@@ -1,0 +1,32 @@
+/**index.wxss**/
+.deck {
+  width:100%;
+
+  top: 0;
+}
+.flex-wrp {
+  display: flex;
+  flex-direction:row;
+  flex-wrap: wrap;
+}
+
+.flex-item {
+}
+.card {
+  width: 60px;
+  border-radius: 5px;
+  text-align: center;
+  border:1px solid blue;
+  box-shadow: 2px black;
+}
+
+.flip-number {
+  width: 60px;
+  border-radius: 5px;
+  text-align: center;
+  border:1px solid blue;
+  box-shadow: 2px black;
+}
+.start-calculate{
+  
+}

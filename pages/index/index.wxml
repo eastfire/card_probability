@@ -1,0 +1,18 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="deck flex-wrp">
+    <view class="card flex-item"  wx:for="{{deck}}"  wx:for-index="cardIndex" wx:key="key1"> 
+      <text class="card-suit" >{{['♠','♥','♣','♦','♤','♡','♧','♢'][item.suit]}}</text>
+      <text class="card-number">{{[0,1,2,3,4,5,6,7,8,9,10,"J","Q","K","A"][item.number]}}</text>
+      <text class="copy-number">×{{item.copyNumber}}</text>
+    </view>
+    <view class="add-card card">+</view>
+  </view>
+  <view>
+    <text class='total-number'>共{{totalNumber}}张</text>
+    <text class='flip-number'>翻{{flipNumber}}张</text>
+  </view>
+  <button class="start-calculate" bindtap="startCalculate">开始计算</button>
+  <view class="result-list">{{result}}</view>
+
+</view>
