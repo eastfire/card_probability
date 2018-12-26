@@ -27,6 +27,10 @@
   border:1px solid blue;
   box-shadow: 2px black;
 }
+
+.total-number {
+  margin: 10px;
+}
 .start-calculate{
   
 }

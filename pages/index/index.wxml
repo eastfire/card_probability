@@ -9,10 +9,16 @@
     <view class="add-card card">+</view>
   </view>
   <view>
+    <text class='total-number'>最大数{{biggest}}</text>
+    <text class='total-number'>最小数{{smallest}}</text>
     <text class='total-number'>共{{totalNumber}}张</text>
     <text class='flip-number'>翻{{flipNumber}}张</text>
   </view>
   <button class="start-calculate" bindtap="startCalculate">开始计算</button>
-  <view class="result-list">{{result}}</view>
+  <view class="result-list">
+    <view class="card flex-item"  wx:for="{{result}}"  wx:for-index="resultIndex" wx:key="key2">
+      <text class="result-type">{{item.type}}:{{item.value}}%</text>
+    </view>
+  </view>
 
 </view>
