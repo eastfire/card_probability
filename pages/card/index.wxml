@@ -1,0 +1,109 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="top-bar">
+    <button class="set-deck top-button" bindtap="showSetupDeckDialog">重置牌库</button>
+    <button class="set-type top-button" bindtap="showSetType">设置检查牌型</button>
+  </view>
+  <view class="deck flex-wrp">
+    <view class="card flex-item"  wx:for="{{deck}}"  wx:for-index="cardIndex" wx:key="key1" catchtap="editCard" id="{{cardIndex}}">
+      <text class="card-suit">{{['♠','♥','♣','♦','♤','♡','♧','♢'][item.suit]}}</text>
+      <text class="card-number">{{item.number}}</text>
+      <text class="copy-number">×{{item.copyNumber}}</text>
+    </view>
+    <view class="add-card card" bindtap="addCard">+</view>
+  </view>
+  <view>
+    <text class='total-number'>最大数{{biggest}}</text>
+    <text class='total-number'>最小数{{smallest}}</text>
+    <text class='total-number'>共{{totalNumber}}张</text>
+    <text class='flip-number'>翻{{flipNumber}}张</text>
+  </view>
+  <button class="start-calculate" bindtap="startCalculate">开始计算</button>
+  <text wx:if="{{result.length}}">注意：由于使用的是采样法，计算结果不是百分百精确；</text>
+  <view class="result-list">
+    <view class="flex-item"  wx:for="{{result}}"  wx:for-index="resultIndex" wx:key="key2">
+      <text class="result-type">{{item.type}} : {{item.value}}%</text>
+    </view>
+  </view>
+  <view class="dialog-mask set-type" wx:if="{{isShowSetType}}">
+    <checkbox-group bindchange="changeType">
+      <view wx:for="{{judgeTypeArray}}" wx:for-index="index" wx:key="key3">
+        <label>
+          <checkbox value='{{judgeTypeArray[index]}}' checked='{{judgeType[judgeTypeArray[index]]}}'/>{{judgeTypeArray[index]}}
+        </label>
+      </view>
+    </checkbox-group>
+    <text>注意：不同牌型可能会重叠，比如3顺子可能同时满足一对；5条、4条、3带2、2对、1对不会重叠。5顺子、4顺子、3顺子不会重叠。5同花、4同花、3同花不会重叠。未检查到的牌型为杂牌。</text>
+    <button class="select-number" bindtap="confirmType">确定</button>
+  </view>
+  <view class="dialog-mask set-card" wx:if="{{isShowSetCard}}">
+    <text class="dialog-title">{{setCardDialogType=="edit"?"编辑卡牌":"新建卡牌"}}</text>
+    <view class="select-number"><text>牌面大小</text></view>
+    <radio-group class="my-radio" bindchange="setCardNumber">
+      <label class="checkbox" wx:for="{{[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]}}">
+        <radio value="{{item}}" checked="{{currentCardNumber==item}}" />
+        {{item}}
+      </label>
+    </radio-group>
+    
+    <view class="select-number"><text>花色</text></view>
+    <radio-group bindchange="setCardSuit">
+      <label class="checkbox" wx:for="{{[{name:'♠', value:0},{name:'♥', value:1},{name:'♣', value:2},{name:'♦', value:3},{name:'♤', value:4},{name:'♡', value:5},{name:'♧', value:6},{name:'♢', value:7}]}}">
+        <radio value="{{item.value}}" checked="{{currentCardSuit==item.value}}" />
+        {{item.name}}
+      </label>
+    </radio-group>
+    <view class="select-number"><text>牌数</text></view>
+    <radio-group bindchange="setCardCopy">
+      <label class="checkbox" wx:for="{{[1,2,3,4]}}">
+        <radio value="{{item}}" checked="{{currentCardCopy==item}}" />
+        {{item}}张
+      </label>
+    </radio-group>
+    <view class="dialog-bottom">
+        <button class="select-number" bindtap="confirmCard">确定</button>
+        <button class="select-number" bindtap="deleteCard" wx:if="{{setCardDialogType=='edit'}}">删除</button>
+      </view>
+  </view>
+  <view class="dialog-mask setup-desk" wx:if="{{isShowSetupDesk}}">
+    <text class="dialog-title">设置牌库</text>
+    <view>
+      <view class="select-number"><text>最小牌</text></view>
+      <radio-group bindchange="selectSmallest">
+        <label class="checkbox" wx:for="{{[1,2,3,4,5,6,7,8,9,10]}}"  wx:key="keySmallest">
+          <radio value="{{item}}" checked="{{deckSmallest==item}}" />
+          {{item}}
+        </label>
+      </radio-group>
+      <view class="select-number"><text>最大牌</text></view>
+      <radio-group bindchange="selectBiggest">
+        <label class="checkbox" wx:for="{{[5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]}}" wx:key="keyBiggest">
+          <radio value="{{item}}" checked="{{deckBiggest==item}}" />
+          {{item}}
+        </label>
+      </radio-group>
+      <view class="select-number"><text>花色数</text></view>
+      <radio-group bindchange="selectSuit">
+        <label class="checkbox" wx:for="{{[2,3,4,5,6,7,8]}}"  wx:key="keySuit">
+          <radio value="{{item}}" checked="{{deckSuit==item}}" />
+          {{item}}
+        </label>
+      </radio-group>
+      <view class="select-number"><text>每种牌张数</text></view>
+      <radio-group bindchange="selectCopy">
+        <label class="checkbox" wx:for="{{[1,2,3,4]}}"  wx:key="keyCopy">
+          <radio value="{{item}}" checked="{{deckCopy==item}}" />
+          {{item}}
+        </label>
+      </radio-group>
+      <view class="dialog-bottom">
+        <button class="select-number" bindtap="confirmSetupDialog">确定</button>
+        <button class="select-number" bindtap="closeSetupDialog">取消</button>
+      </view>
+    </view>
+    
+  </view>
+  <view class="loading-mask" wx:if="{{loading}}">
+    <text class="loading-text">计算中{{progress}}%\n请稍候...</text>
+  </view>
+</view>
