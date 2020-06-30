@@ -64,6 +64,12 @@ Page({
     this.setData({ loading: true, progress: ""});
     var face_indexs = [];
     var totalMap = {};
+    var maxMap = {};
+    var minMap = {};
+    var diffMap = {};
+    var sameCountOneTotalMap = {};
+    var removeSameMaxMap = {};
+    var removeSameTotalMap = {};
     var typeMap = {};
     var dices = this.data.dices;
     var diceCount = dices.length
@@ -150,9 +156,25 @@ Page({
       for (var i = 0; i < diceCount; i++) {
         total += (currentFaces[i] = dices[i].faces[face_indexs[i]]);
       }
+      let max = Math.max(...currentFaces);
+      let min = Math.min(...currentFaces);
+      let diff = max - min;
+
       if (undefined === totalMap[total]) {
         totalMap[total] = 1;
       } else totalMap[total]++;
+
+      if (undefined === maxMap[max]) {
+        maxMap[max] = 1;
+      } else maxMap[max]++;
+
+      if (undefined === minMap[min]) {
+        minMap[min] = 1;
+      } else minMap[min]++;
+
+      if (undefined === diffMap[diff]) {
+        diffMap[diff] = 1;
+      } else diffMap[diff]++;
       //judge type
       var sortedFaces = currentFaces.sort();
       judgeType(sortedFaces, typeMap)
@@ -177,15 +199,33 @@ Page({
     setTimeout(clusterCalculate, 0);      
     
     var outputResult = function(){
-      //output
-      var keys = _.keys(totalMap);
-
       self.data.results = [];
+      //output
+      self.data.results.push("------总值分布-------");
+      var keys = _.keys(totalMap);
       _.each(keys, function (key) {
         this.data.results.push("总值" + key + "：" + totalMap[key] + "/" + sum + " " + (totalMap[key] / sum * 100).toFixed(4) + "%")
       }, self)
 
-      self.data.results.push("-----------------");
+      self.data.results.push("------最大值分布-------");
+      keys = _.keys(maxMap);
+      _.each(keys, function (key) {
+        this.data.results.push("最大值" + key + "：" + maxMap[key] + "/" + sum + " " + (maxMap[key] / sum * 100).toFixed(4) + "%")
+      }, self)
+
+      self.data.results.push("------最小值分布-------");
+      keys = _.keys(minMap);
+      _.each(keys, function (key) {
+        this.data.results.push("最大值" + key + "：" + minMap[key] + "/" + sum + " " + (minMap[key] / sum * 100).toFixed(4) + "%")
+      }, self)
+
+      self.data.results.push("------最大值减最小值分布-------");
+      keys = _.keys(diffMap);
+      _.each(keys, function (key) {
+        this.data.results.push("最大最小差值" + key + "：" + diffMap[key] + "/" + sum + " " + (diffMap[key] / sum * 100).toFixed(4) + "%")
+      }, self)
+
+      self.data.results.push("------类型分布------");
 
       var keys = _.keys(typeMap).sort();
       _.each(keys, function (key) {

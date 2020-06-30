@@ -4,14 +4,22 @@
 		"urlCheck": true,
 		"es6": true,
 		"postcss": true,
+		"preloadBackgroundData": false,
 		"minified": true,
-		"newFeature": true
+		"newFeature": true,
+		"autoAudits": false,
+		"coverView": true,
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
+		"useCompilerModule": true
 	},
 	"compileType": "miniprogram",
 	"libVersion": "1.9.1",
 	"appid": "wxc68b7d4cdd651063",
 	"projectname": "wx_card_probability",
 	"isGameTourist": false,
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,

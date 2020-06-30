@@ -17,7 +17,7 @@
     </view>    
   </view>
   <button class="start-calculate" bindtap="startCalculate" disabled="{{dices.length<=0}}">开始计算</button>
-  <view wx:for="{{results}}" wx:key="{{i}}">
+  <view wx:for="{{results}}" wx:key="i">
     <text class="result-text">{{item}}</text>
   </view>
 
