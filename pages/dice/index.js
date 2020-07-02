@@ -160,6 +160,25 @@ Page({
       let min = Math.min(...currentFaces);
       let diff = max - min;
 
+      var total2 = 0;
+      _.uniq(currentFaces).forEach(num=>{
+        total2+= num;
+      })
+
+      var groups = _.groupBy(currentFaces,function(num){
+        return num;
+      })
+      var total3 = 0;
+      var max3 = 0;
+      for (var key in groups){
+        if ( groups[key].length === 1 ) {
+          total3 += parseInt(key);
+          if ( key > max3 ) {
+            max3 = key;
+          }
+        }
+      }
+      
       if (undefined === totalMap[total]) {
         totalMap[total] = 1;
       } else totalMap[total]++;
@@ -175,6 +194,18 @@ Page({
       if (undefined === diffMap[diff]) {
         diffMap[diff] = 1;
       } else diffMap[diff]++;
+
+      if (undefined === sameCountOneTotalMap[total2]) {
+        sameCountOneTotalMap[total2] = 1;
+      } else sameCountOneTotalMap[total2]++;
+
+      if (undefined === removeSameTotalMap[total3]) {
+        removeSameTotalMap[total3] = 1;
+      } else removeSameTotalMap[total3]++;
+
+      if (undefined === removeSameMaxMap[max3]) {
+        removeSameMaxMap[max3] = 1;
+      } else removeSameMaxMap[max3]++;
       //judge type
       var sortedFaces = currentFaces.sort();
       judgeType(sortedFaces, typeMap)
@@ -230,6 +261,24 @@ Page({
       var keys = _.keys(typeMap).sort();
       _.each(keys, function (key) {
         this.data.results.push(key + "：" + typeMap[key] + "/" + sum + " " + (typeMap[key] / sum * 100).toFixed(4) + "%")
+      }, self)
+
+      self.data.results.push("------相同数字只算一次，总值分布-------");
+      var keys = _.keys(sameCountOneTotalMap);
+      _.each(keys, function (key) {
+        this.data.results.push("总值" + key + "：" + sameCountOneTotalMap[key] + "/" + sum + " " + (sameCountOneTotalMap[key] / sum * 100).toFixed(4) + "%")
+      }, self)
+
+      self.data.results.push("------不计出现2次以上的数，总值分布-------");
+      var keys = _.keys(removeSameTotalMap);
+      _.each(keys, function (key) {
+        this.data.results.push("总值" + key + "：" + removeSameTotalMap[key] + "/" + sum + " " + (removeSameTotalMap[key] / sum * 100).toFixed(4) + "%")
+      }, self)
+
+      self.data.results.push("------不计出现2次以上的数，最大值分布-------");
+      var keys = _.keys(removeSameMaxMap);
+      _.each(keys, function (key) {
+        this.data.results.push("最大值" + key + "：" + removeSameMaxMap[key] + "/" + sum + " " + (removeSameMaxMap[key] / sum * 100).toFixed(4) + "%")
       }, self)
 
       self.setData({ results: self.data.results, loading: false });
