@@ -55,3 +55,7 @@
 .result-text {
   text-align: left;
 }
+
+.resullt-item {
+  margin-right: 16px;
+}

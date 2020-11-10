@@ -18,11 +18,12 @@
   </view>
   <van-button type="primary" block round plain size="small" class="start-calculate" bind:click="startCalculate" disabled="{{dices.length<=0}}" >开始计算</van-button>
 
-  <van-collapse >
-    <van-collapse-item wx:for="{{result}}"  wx:for-index="resultIndex" wx:key="key2" title="{{item.name}}" name="{{index}}">
-      <view class="result-item"  wx:for="{{item.list}}"  wx:for-index="resultIndex" wx:key="key2">
-        <view class="result-type">{{item2.type}} :</view>
-        <view class="result-value">{{item2.value}}%</view>
+  <van-collapse accordion value="{{ activeResult }}" style="width:100%" bind:change="onChange">
+    <van-collapse-item wx:for="{{results}}"  wx:for-index="resultListIndex" wx:key="key3" title="{{item.name}}" name="{{resultListIndex+1}}">
+      <view class="result-item"  wx:for="{{item.list}}"  wx:for-index="resultIndex" wx:key="resultIndex" wx:for-item="resultItem" style="display:flex;flex-direction:row">
+        <view class="result-type resullt-item">{{resultItem.type}} :</view>
+        <view class="result-frequency resullt-item">{{resultItem.frequency}}/{{item.sum}}</view>
+        <view class="result-value resullt-item">{{resultItem.value}}%</view>
       </view>
     </van-collapse-item>
   </van-collapse>

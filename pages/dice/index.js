@@ -8,7 +8,8 @@ Page({
     dices: [],
     results: [],
     loading: false,
-    progress: ""
+    progress: "",
+    activeResult: "1"
   },  
   //事件处理函数
   delDice:function(event){
@@ -62,6 +63,9 @@ Page({
     this.setData({
       dices: dices
     })
+  },
+  onChange(event){
+    this.setData({activeResult: event.detail})
   },
   startCalculate:function(){
     wx.setStorageSync('dices', this.data.dices)
@@ -127,8 +131,9 @@ Page({
           currentSameCount = 1;
         }
 
-        if (currentFace === currentStraightHead + 1) {
+        if (currentStraightHead!==null && currentFace === currentStraightHead + 1) {
           currentStraightCount++;
+          currentStraightHead++;
         } else {
           if (maxStraightCount < currentStraightCount) {
             maxStraightCount = currentStraightCount;
@@ -211,7 +216,12 @@ Page({
         removeSameMaxMap[max3] = 1;
       } else removeSameMaxMap[max3]++;
       //judge type
-      var sortedFaces = currentFaces.sort();
+      
+      var sortedFaces = currentFaces.sort((a,b)=>
+        {
+        return a - b
+        });
+    
       judgeType(sortedFaces, typeMap)
     }
     var clusterCalculate = function(){
@@ -236,55 +246,125 @@ Page({
     var outputResult = function(){
       self.data.results = [];
       //output
-      self.data.results.push("------总值分布-------");
+      let list = []
       var keys = _.keys(totalMap).sort(value=>value);
       _.each(keys, function (key) {
-        this.data.results.push("总值" + key + "：" + totalMap[key] + "/" + sum + " " + (totalMap[key] / sum * 100).toFixed(4) + "%")
+        list.push({
+          type:key,
+          frequency: totalMap[key],
+          value: (totalMap[key] / sum * 100).toFixed(4) 
+        })
       }, self)
+      self.data.results.push({
+        name: "总值分布",
+        sum,
+        list
+      })
 
-      self.data.results.push("------最大值分布-------");
+      list = [];
       keys = _.keys(maxMap).sort(value=>value);
       _.each(keys, function (key) {
-        this.data.results.push("最大值" + key + "：" + maxMap[key] + "/" + sum + " " + (maxMap[key] / sum * 100).toFixed(4) + "%")
+        list.push({
+          type:key,
+          frequency: maxMap[key],
+          value: (maxMap[key] / sum * 100).toFixed(4) 
+        })        
       }, self)
+      self.data.results.push({
+        name: "最大值分布",
+        sum,
+        list
+      })
 
-      self.data.results.push("------最小值分布-------");
+      list = [];
       keys = _.keys(minMap).sort(value=>value);
       _.each(keys, function (key) {
-        this.data.results.push("最大值" + key + "：" + minMap[key] + "/" + sum + " " + (minMap[key] / sum * 100).toFixed(4) + "%")
+        list.push({
+          type:key,
+          frequency: minMap[key],
+          value: (minMap[key] / sum * 100).toFixed(4) 
+        })
       }, self)
+      self.data.results.push({
+        name: "最小值分布",
+        sum,
+        list
+      })
 
-      self.data.results.push("------最大值减最小值分布-------");
+      list = [];
       keys = _.keys(diffMap).sort(value=>value);
       _.each(keys, function (key) {
-        this.data.results.push("最大最小差值" + key + "：" + diffMap[key] + "/" + sum + " " + (diffMap[key] / sum * 100).toFixed(4) + "%")
+        list.push({
+          type:key,
+          frequency: diffMap[key],
+          value: (diffMap[key] / sum * 100).toFixed(4) 
+        })
       }, self)
+      self.data.results.push({
+        name: "最大值减最小值分布",
+        sum,
+        list
+      })
 
-      self.data.results.push("------类型分布------");
-
+      list = [];
       var keys = _.keys(typeMap).sort();
       _.each(keys, function (key) {
-        this.data.results.push(key + "：" + typeMap[key] + "/" + sum + " " + (typeMap[key] / sum * 100).toFixed(4) + "%")
-      }, self)
+        list.push({
+          type:key,
+          frequency: typeMap[key],
+          value: (typeMap[key] / sum * 100).toFixed(4) 
+        })
+      },self);
+      self.data.results.push({
+        name: "类型分布",
+        sum,
+        list
+      })
 
-      self.data.results.push("------相同数字只算一次，总值分布-------");
+      list = [];
       var keys = _.keys(sameCountOneTotalMap).sort(value=>value);
       _.each(keys, function (key) {
-        this.data.results.push("总值" + key + "：" + sameCountOneTotalMap[key] + "/" + sum + " " + (sameCountOneTotalMap[key] / sum * 100).toFixed(4) + "%")
+        list.push({
+          type:key,
+          frequency: sameCountOneTotalMap[key],
+          value: (sameCountOneTotalMap[key] / sum * 100).toFixed(4) 
+        })
       }, self)
+      self.data.results.push({
+        name: "相同数字只算一次，总值分布",
+        sum,
+        list
+      })
 
-      self.data.results.push("------不计出现2次以上的数，总值分布-------");
+      list = [];
       var keys = _.keys(removeSameTotalMap).sort(value=>value);
       _.each(keys, function (key) {
-        this.data.results.push("总值" + key + "：" + removeSameTotalMap[key] + "/" + sum + " " + (removeSameTotalMap[key] / sum * 100).toFixed(4) + "%")
+        list.push({
+          type:key,
+          frequency: removeSameTotalMap[key],
+          value: (removeSameTotalMap[key] / sum * 100).toFixed(4) 
+        })
       }, self)
+      self.data.results.push({
+        name: "不计出现2次以上的数，总值分布",
+        sum,
+        list
+      })
 
-      self.data.results.push("------不计出现2次以上的数，最大值分布-------");
+      list = [];
       var keys = _.keys(removeSameMaxMap);
       _.each(keys, function (key) {
-        this.data.results.push("最大值" + key + "：" + removeSameMaxMap[key] + "/" + sum + " " + (removeSameMaxMap[key] / sum * 100).toFixed(4) + "%")
+        list.push({
+          type:key,
+          frequency: removeSameMaxMap[key],
+          value: (removeSameMaxMap[key] / sum * 100).toFixed(4) 
+        })
       }, self)
-
+      self.data.results.push({
+        name: "不计出现2次以上的数，最大值分布",
+        sum,
+        list
+      })
       self.setData({ results: self.data.results, loading: false });
     }    
   },
