@@ -1,5 +1,6 @@
 //index.js
 //获取应用实例
+import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
 const _ = require('../../utils/underscore.js')._
 const app = getApp()
 
@@ -25,10 +26,15 @@ Page({
     currentCardCopy: 1,
 
     progress: "",
+    sortType: "number",
+    sortOrder: "ascending",
 
     isShowSetType: false,
     judgeType:{
       "5同花顺": true,
+      "4同花顺": true,
+      "3同花顺": true,
+      "2同花顺": true,
       "5条": true,
       "4条": true,
       "3带2": true,
@@ -38,9 +44,11 @@ Page({
       "5顺子": true,
       "4顺子": true,
       "3顺子": true,
+      "2顺子": true,
       "5同花": true,
       "4同花": true,
       "3同花": true, 
+      "2同花": true, 
     },
     judgeTypeArray:[]
   },
@@ -55,6 +63,7 @@ Page({
       this.setData({deck:deck});
       this.calculateTotal();
     }
+    this.sortDeck();
     
   },
   setupDeck(){
@@ -189,6 +198,53 @@ Page({
   closeSetupDialog: function() {
     this.setData({ isShowSetupDesk : false});
   },
+  selectFilpNumber:function(){
+    wx.showActionSheet({
+      itemList: ["翻2张","翻3张","翻4张","翻5张"],
+      success:(res)=>{
+        this.setData({flipNumber: res.tapIndex+2})
+      }
+    })
+  },
+  changeSortType:function(){
+    if ( this.data.sortType === "number" ) {
+      this.setData({sortType:"suit"})
+    } else if ( this.data.sortType === "suit" ) {
+      this.setData({sortType:"copyNumber"})
+    } else {
+      this.setData({sortType:"number"})
+    }
+    this.sortDeck();
+  },
+  changeSortOrder:function(){
+    if ( this.data.sortOrder === "ascending" ) {
+      this.setData({sortOrder:"descending"})
+    } else if ( this.data.sortOrder === "descending" ) {
+      this.setData({sortOrder:"ascending"})
+    }
+    this.sortDeck();
+  },
+  sortDeck:function(){
+    let deck;
+    let flag = 1
+    if ( this.data.sortOrder === "descending" ) {
+      flag = -1;
+    }
+    if ( this.data.sortType === "number" ) {
+      deck = _.sortBy(this.data.deck, function (card) {
+        return flag*(card.number * 10000 + card.suit*100+card.copyNumber);
+      })
+    } else if ( this.data.sortType === "suit" ) {
+      deck = _.sortBy(this.data.deck, function (card) {
+        return flag*(card.suit * 10000 + card.number*100+card.copyNumber);
+      })
+    } else {
+      deck = _.sortBy(this.data.deck, function (card) {
+        return flag*(card.copyNumber * 10000 + card.number*100+card.suit);
+      })
+    }
+    this.setData({deck})
+  },
   startCalculate:function(){
     wx.setStorageSync('deck', this.data.deck)
     var realDeck = [];
@@ -202,6 +258,9 @@ Page({
     var types = {
       "5条":0,
       "5同花顺":0,
+      "4同花顺":0,
+      "3同花顺":0,
+      "2同花顺":0,
       "4条":0,
       "3带2": 0,
       "3条": 0,
@@ -210,31 +269,40 @@ Page({
       "5顺子":0,
       "4顺子": 0,
       "3顺子": 0,
+      "2顺子": 0,
       "5同花": 0,
       "4同花":0,
       "3同花": 0,      
+      "2同花": 0,      
       "杂牌": 0
     };
     this.STRAIGHT5_LIST = [];
     for ( var i = this.data.smallest; i <= this.data.biggest - 4; i++ ) {
-      this.STRAIGHT5_LIST.push([i, i+1, i+2, i+3, i+4].join("-"))
+      this.STRAIGHT5_LIST.push([i, i+1, i+2, i+3, i+4].toString())
     }
     if ( this.data.wrapAround && this.data.biggest > this.data.smallest + 4) {
-      this.STRAIGHT5_LIST.push([this.data.smallest, this.data.smallest + 1, this.data.smallest + 2, this.data.smallest+3, this.data.biggest].join("-"))
+      this.STRAIGHT5_LIST.push([this.data.smallest, this.data.smallest + 1, this.data.smallest + 2, this.data.smallest+3, this.data.biggest].toString())
     }
     this.STRAIGHT4_LIST = [];
     for (var i = this.data.smallest; i <= this.data.biggest - 3; i++) {
-      this.STRAIGHT4_LIST.push([i, i+1, i+2, i+3].join("-"))
+      this.STRAIGHT4_LIST.push([i, i+1, i+2, i+3].toString())
     }
     if (this.data.wrapAround && this.data.biggest > this.data.smallest + 3) {
-      this.STRAIGHT4_LIST.push([this.data.smallest, this.data.smallest + 1, this.data.smallest + 2, this.data.biggest].join("-"))
+      this.STRAIGHT4_LIST.push([this.data.smallest, this.data.smallest + 1, this.data.smallest + 2, this.data.biggest].toString())
     }
     this.STRAIGHT3_LIST = [];
     for (var i = this.data.smallest; i <= this.data.biggest - 2; i++) {
-      this.STRAIGHT3_LIST.push([i, i+1, i+2].join("-"))
+      this.STRAIGHT3_LIST.push([i, i+1, i+2].toString())
     }
     if (this.data.wrapAround && this.data.biggest > this.data.smallest + 2) {
-      this.STRAIGHT3_LIST.push([this.data.smallest, this.data.smallest + 1, this.data.biggest].join("-"))
+      this.STRAIGHT3_LIST.push([this.data.smallest, this.data.smallest + 1, this.data.biggest].toString())
+    }
+    this.STRAIGHT2_LIST = [];
+    for (var i = this.data.smallest; i <= this.data.biggest - 1; i++) {
+      this.STRAIGHT2_LIST.push([i, i+1].toString())
+    }
+    if (this.data.wrapAround && this.data.biggest > this.data.smallest + 1) {
+      this.STRAIGHT2_LIST.push([this.data.smallest, this.data.biggest].toString())
     }
     realDeck = _.sortBy(realDeck, function (card) {
       return card.number * 100 + card.suit;
@@ -309,7 +377,11 @@ Page({
     } else if (this.data.judgeType["3同花"] && flushCount === 3) {
       types["3同花"]++;
       found = true;
+    } else if (this.data.judgeType["2同花"] && flushCount === 2) {
+      types["2同花"]++;
+      found = true;
     }
+    let cardCount = cards.length;
     var straightCount = this.getStraightCount(cards);
     if (straightCount === 5 ) {
       if (this.data.judgeType["5同花顺"] && flushCount === 5) {
@@ -319,12 +391,30 @@ Page({
         types["5顺子"]++;
         found = true;
       }      
-    } else if (this.data.judgeType["4顺子"] && straightCount === 4) {
-      types["4顺子"]++;
-      found = true;
-    } else if (this.data.judgeType["3顺子"] && straightCount === 3) {
-      types["3顺子"]++;
-      found = true;
+    } else if ( straightCount === 4) {
+      if (this.data.judgeType["4同花顺"] && flushCount === 4 && cardCount===4) {
+        types["4同花顺"]++;
+        found = true;
+      } else if (this.data.judgeType["4顺子"] ) {
+        types["4顺子"]++;
+        found = true;
+      }      
+    } else if (straightCount === 3) {
+      if (this.data.judgeType["3同花顺"] && flushCount === 3&& cardCount===3) {
+        types["3同花顺"]++;
+        found = true;
+      } else if (this.data.judgeType["3顺子"] ) {
+        types["3顺子"]++;
+        found = true;
+      }
+    } else if (straightCount === 2) {
+      if (this.data.judgeType["2同花顺"] && flushCount ===2 && cardCount===2) {
+        types["2同花顺"]++;
+        found = true;
+      } else if (this.data.judgeType["2顺子"]){
+        types["2顺子"]++;
+        found = true;
+      }      
     }
     if (!found) {      
       types["杂牌"]++;
@@ -340,9 +430,10 @@ Page({
     return this.isFlush(cards) && this.isStraight(cards);
   },
   is4ofAKind: function (cards) {
-    if (cards.length >= 4 && cards[0].number === cards[1].number && cards[0].number === cards[2].number && cards[0].number === cards[3].number) {
+    let cardCount = cards.length;
+    if (cardCount >= 4 && cards[0].number === cards[1].number && cards[0].number === cards[2].number && cards[0].number === cards[3].number) {
       return true;
-    } else if (cards.length >= 5 && cards[1].number === cards[2].number && cards[1].number === cards[3].number && cards[1].number === cards[4].number) {
+    } else if (cardCount >= 5 && cards[1].number === cards[2].number && cards[1].number === cards[3].number && cards[1].number === cards[4].number) {
       return true;
     }
     return false
@@ -363,15 +454,17 @@ Page({
   is5Straight: function (cards) {
     var v = _.map(cards, function (card) {
       return card.number;
-    }, this).join("-");
+    }, this).toString();
     return this.STRAIGHT5_LIST[v];
   },
   is3ofAKind: function (cards) {
+    let cardCount = cards.length;
+    if (cardCount < 3 ) return false;
     if (cards[0].number === cards[1].number && cards[0].number === cards[2].number) {
       return cards[0];
-    } else if (cards[1].number === cards[2].number && cards[1].number === cards[3].number) {
+    } else if ( cardCount > 3 && cards[1].number === cards[2].number && cards[1].number === cards[3].number) {
       return cards[1];
-    } else if (cards[2].number === cards[3].number && cards[2].number === cards[4].number) {
+    } else if ( cardCount > 4 && cards[2].number === cards[3].number && cards[2].number === cards[4].number) {
       return cards[2];
     }
     return false
@@ -386,7 +479,7 @@ Page({
   getStraightCount: function(cards) {
     var v = _.uniq(_.map(cards, function (card) {
       return card.number;
-    }, this)).join("-")
+    }, this)).toString();
     for ( var i = 0; i < this.STRAIGHT5_LIST.length; i++ ) {
       if ( v.indexOf(this.STRAIGHT5_LIST[i]) !== -1 ) {
         return 5
@@ -402,29 +495,47 @@ Page({
         return 3
       }
     }
+    for (var i = 0; i < this.STRAIGHT2_LIST.length; i++) {
+      if ( v.indexOf(this.STRAIGHT2_LIST[i]) !== -1) {
+        return 2
+      }
+    }
     return 0;
   },
   is2Pair: function (cards) {
-    if (cards.length >= 4 && cards[0].number === cards[1].number && cards[2].number === cards[3].number) {
+    let cardCount = cards.length;
+    if (cardCount >= 4 && cards[0].number === cards[1].number && cards[2].number === cards[3].number) {
       return true;
-    } else if (cards[0].number === cards[1].number && cards[3].number === cards[4].number) {
+    } else if (cardCount >= 5 && cards[0].number === cards[1].number && cards[3].number === cards[4].number) {
       return true;
-    } else if (cards[1].number === cards[2].number && cards[3].number === cards[4].number) {
+    } else if (cardCount >= 5 && cards[1].number === cards[2].number && cards[3].number === cards[4].number) {
       return true;
     }
     return false;
   },
   isPair: function (cards) {
+    let cardCount = cards.length;
     if (cards[0].number === cards[1].number) {
       return cards[0];
-    } else if (cards[1].number === cards[2].number) {
+    } else if (cardCount >= 3 && cards[1].number === cards[2].number) {
       return cards[1];
-    } else if (cards[2].number === cards[3].number) {
+    } else if (cardCount >= 4 && cards[2].number === cards[3].number) {
       return cards[2];
-    } else if (cards[3].number === cards[4].number) {
+    } else if (cardCount >= 5 && cards[3].number === cards[4].number) {
       return cards[3];
     }
     return false;
   },
-  
+  showInfo(){
+    Dialog.alert({
+      message: `注意：由于使用的是采样法，计算结果不是百分百精确；
+      同一套牌可能满足多种牌型。
+      不同牌型可能会重叠，比如3顺子可能同时满足一对，因此概率相加会大于100%。
+      5条、4条、3带2、2对、1对不会重叠。
+      5同花顺、5顺子、4同花顺、4顺子、3同花顺、3顺子不会重叠。
+      5同花、4同花、3同花不会重叠。未检查到的牌型为杂牌。`,
+    }).then(() => {
+      // on close
+    });
+  }
 })

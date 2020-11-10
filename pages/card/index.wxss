@@ -3,6 +3,10 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  margin-bottom: 8px;
+}
+.top-button {
+  margin: 0 4px;
 }
 .deck {
   width:100%;
@@ -12,16 +16,18 @@
   display: flex;
   flex-direction:row;
   flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
-.flex-item {
-}
+/* .flex-item {
+} */
 .card {
   width: 70px;
   border-radius: 5px;
   text-align: center;
   border:1px solid blue;
   box-shadow: 2px black;
+  margin-bottom: 2px;
 }
 
 .flip-number {
@@ -35,11 +41,31 @@
 .total-number {
   margin: 10px;
 }
+.calculate-row {
+  display:flex;
+  flex-direction:row;
+  width:100%;
+  padding: 8px;
+}
 .start-calculate{
-  
+  margin-left: 8px;
+  flex:1;
+}
+.show-info{
+  margin: 0 8px;
 }
 .result-list{
-  width:100%
+  width:100%;
+  padding-left:32px;
+}
+
+.result-type {
+  width: 100px;
+}
+
+.result-item {
+  display:flex;
+  flex-direction: row;
 }
 
 .dialog-mask {
@@ -52,23 +78,25 @@
   flex-direction: column;
   align-items: center;
 }
+
 .dialog-title {
   color: black;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 .select-number {
   margin-top: 10px;
 }
-.my-radio {
-  /* display: flex;
-  flex-direction: row; */
-}
+/* .my-radio {
+  display: flex;
+  flex-direction: row;
+} */
 .checkbox {
   margin-right: 25px;
 }
 .dialog-bottom {
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
 }
 .loading-mask {
   height: 100%;
@@ -84,4 +112,10 @@
   text-align: center;
   color: white;
   font-size: 50rpx;
+}
+
+.type-checkbox {
+  float: left;
+  margin-right: 16px;
+  margin-bottom: 8px;
 }

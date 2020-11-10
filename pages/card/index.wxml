@@ -1,8 +1,10 @@
 <!--index.wxml-->
 <view class="container">
   <view class="top-bar">
-    <button class="set-deck top-button" bindtap="showSetupDeckDialog">重置牌库</button>
-    <button class="set-type top-button" bindtap="showSetType">设置检查牌型</button>
+    <van-button size="small" class="set-deck top-button" bind:click="showSetupDeckDialog" icon="diamond-o">重置牌库</van-button>
+    <van-button size="small" class="set-type top-button" bind:click="showSetType" icon="setting-o">设置检查牌型</van-button>
+    <van-button size="small" class="set-type" bind:click="changeSortType" >{{sortType==="number"?"大小":(sortType==="suit"?"花色":"牌数")}}</van-button>
+    <van-button size="small" style="width:35px;margin:0 4px 0 0;" class="set-type" bind:click="changeSortOrder" icon="{{sortOrder}}"></van-button>
   </view>
   <view class="deck flex-wrp">
     <view class="card flex-item"  wx:for="{{deck}}"  wx:for-index="cardIndex" wx:key="key1" catchtap="editCard" id="{{cardIndex}}">
@@ -16,25 +18,28 @@
     <text class='total-number'>最大数{{biggest}}</text>
     <text class='total-number'>最小数{{smallest}}</text>
     <text class='total-number'>共{{totalNumber}}张</text>
-    <text class='flip-number'>翻{{flipNumber}}张</text>
+    <text class='flip-number' bindtap="selectFilpNumber">翻{{flipNumber}}张</text>
   </view>
-  <button class="start-calculate" bindtap="startCalculate">开始计算</button>
-  <text wx:if="{{result.length}}">注意：由于使用的是采样法，计算结果不是百分百精确；</text>
+  <view class="calculate-row">
+    <van-button block round plain size="small" type="primary" class="start-calculate" bind:click="startCalculate">开始计算</van-button>
+    <van-button round plain size="small" type="info" class="show-info" bind:click="showInfo" icon="info">说明</van-button>
+  </view>
   <view class="result-list">
-    <view class="flex-item"  wx:for="{{result}}"  wx:for-index="resultIndex" wx:key="key2">
-      <text class="result-type">{{item.type}} : {{item.value}}%</text>
+    <view class="result-item"  wx:for="{{result}}"  wx:for-index="resultIndex" wx:key="key2">
+      <view class="result-type">{{item.type}} :</view>
+      <view class="result-value">{{item.value}}%</view>
     </view>
   </view>
-  <view class="dialog-mask set-type" wx:if="{{isShowSetType}}">
-    <checkbox-group bindchange="changeType">
-      <view wx:for="{{judgeTypeArray}}" wx:for-index="index" wx:key="key3">
+
+  <view class="dialog-mask" wx:if="{{isShowSetType}}">
+    <checkbox-group bindchange="changeType" style="margin:8px;">
+      <view wx:for="{{judgeTypeArray}}" wx:for-index="index" wx:key="key3" class="type-checkbox">
         <label>
           <checkbox value='{{judgeTypeArray[index]}}' checked='{{judgeType[judgeTypeArray[index]]}}'/>{{judgeTypeArray[index]}}
         </label>
       </view>
     </checkbox-group>
-    <text>注意：不同牌型可能会重叠，比如3顺子可能同时满足一对；5条、4条、3带2、2对、1对不会重叠。5顺子、4顺子、3顺子不会重叠。5同花、4同花、3同花不会重叠。未检查到的牌型为杂牌。</text>
-    <button class="select-number" bindtap="confirmType">确定</button>
+    <van-button class="select-number" bind:click="confirmType">确定</van-button>
   </view>
   <view class="dialog-mask set-card" wx:if="{{isShowSetCard}}">
     <text class="dialog-title">{{setCardDialogType=="edit"?"编辑卡牌":"新建卡牌"}}</text>
@@ -61,13 +66,13 @@
       </label>
     </radio-group>
     <view class="dialog-bottom">
-        <button class="select-number" bindtap="confirmCard">确定</button>
-        <button class="select-number" bindtap="deleteCard" wx:if="{{setCardDialogType=='edit'}}">删除</button>
-      </view>
+      <van-button class="select-number" bind:click="confirmCard">确定</van-button>
+      <van-button class="select-number" bind:click="deleteCard" wx:if="{{setCardDialogType=='edit'}}">删除</van-button>
+    </view>
   </view>
   <view class="dialog-mask setup-desk" wx:if="{{isShowSetupDesk}}">
     <text class="dialog-title">设置牌库</text>
-    <view>
+    <view style="padding: 0 8px 0 8px;">
       <view class="select-number"><text>最小牌</text></view>
       <radio-group bindchange="selectSmallest">
         <label class="checkbox" wx:for="{{[1,2,3,4,5,6,7,8,9,10]}}"  wx:key="keySmallest">
@@ -97,8 +102,8 @@
         </label>
       </radio-group>
       <view class="dialog-bottom">
-        <button class="select-number" bindtap="confirmSetupDialog">确定</button>
-        <button class="select-number" bindtap="closeSetupDialog">取消</button>
+        <van-button class="select-number" bind:click="confirmSetupDialog">确定</van-button>
+        <van-button class="select-number" bind:click="closeSetupDialog">取消</van-button>
       </view>
     </view>
     
@@ -106,4 +111,5 @@
   <view class="loading-mask" wx:if="{{loading}}">
     <text class="loading-text">计算中{{progress}}%\n请稍候...</text>
   </view>
+  <van-dialog id="van-dialog" />
 </view>

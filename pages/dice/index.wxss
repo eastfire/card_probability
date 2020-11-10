@@ -5,7 +5,7 @@
 }
 
 .flex-item {
-  flex-grow: 1;
+  margin:4px 2px;
 }
 
 .face-input {
@@ -39,6 +39,11 @@
   z-index: 100;
   background: rgba(1,1,1,0.5)
 }
+.start-calculate {
+  width: 80%;
+  margin: 8px;
+}
+
 .loading-text {
   display: inline-block;
   width: 100%;

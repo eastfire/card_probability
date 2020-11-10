@@ -1,0 +1,170 @@
+{
+  "id": "1475600",
+  "name": "boardgame",
+  "font_family": "boardgame",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "7206117",
+      "name": "Dice",
+      "font_class": "dice2",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "6174260",
+      "name": "poker",
+      "font_class": "poker",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
+      "icon_id": "11398826",
+      "name": "dice",
+      "font_class": "dice",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "22132",
+      "name": "帆船",
+      "font_class": "fanchuan",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "2037302",
+      "name": "船舵",
+      "font_class": "nauticalvesselfubenzhuan",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "2189379",
+      "name": "帆",
+      "font_class": "fanchuanzhuanhuan",
+      "unicode": "e684",
+      "unicode_decimal": 59012
+    },
+    {
+      "icon_id": "2767907",
+      "name": "大炮",
+      "font_class": "dapao",
+      "unicode": "e796",
+      "unicode_decimal": 59286
+    },
+    {
+      "icon_id": "2883644",
+      "name": "帆船",
+      "font_class": "fanchuan1",
+      "unicode": "e75a",
+      "unicode_decimal": 59226
+    },
+    {
+      "icon_id": "9399009",
+      "name": "帆船",
+      "font_class": "icon-test",
+      "unicode": "e6f0",
+      "unicode_decimal": 59120
+    },
+    {
+      "icon_id": "11020363",
+      "name": "击剑",
+      "font_class": "jijian",
+      "unicode": "e66b",
+      "unicode_decimal": 58987
+    },
+    {
+      "icon_id": "1133781",
+      "name": "小帆船logo",
+      "font_class": "xiaofanchuanlogo",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "6471932",
+      "name": "tool-flip-hor",
+      "font_class": "tool-flip-hor",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
+    },
+    {
+      "icon_id": "6471935",
+      "name": "tool-flip-ver",
+      "font_class": "tool-flip-ver",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "10564014",
+      "name": "Boot",
+      "font_class": "Boot",
+      "unicode": "e6f1",
+      "unicode_decimal": 59121
+    },
+    {
+      "icon_id": "922076",
+      "name": "ic_fireworks",
+      "font_class": "icfireworks",
+      "unicode": "e661",
+      "unicode_decimal": 58977
+    },
+    {
+      "icon_id": "1056963",
+      "name": "cards",
+      "font_class": "cards",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "1210916",
+      "name": "Hand",
+      "font_class": "Hand",
+      "unicode": "e665",
+      "unicode_decimal": 58981
+    },
+    {
+      "icon_id": "3538475",
+      "name": "explosion",
+      "font_class": "explosion",
+      "unicode": "ec66",
+      "unicode_decimal": 60518
+    },
+    {
+      "icon_id": "6807491",
+      "name": "Heart-Ace Card",
+      "font_class": "Heart-AceCard",
+      "unicode": "ec5a",
+      "unicode_decimal": 60506
+    },
+    {
+      "icon_id": "6807504",
+      "name": "Spade-Ace Card",
+      "font_class": "Spade-AceCard",
+      "unicode": "ec5f",
+      "unicode_decimal": 60511
+    },
+    {
+      "icon_id": "6807515",
+      "name": "Clubs-Ace Card",
+      "font_class": "Clubs-AceCard",
+      "unicode": "ec63",
+      "unicode_decimal": 60515
+    },
+    {
+      "icon_id": "6807516",
+      "name": "Diamond-Ace Card",
+      "font_class": "Diamond-AceCard",
+      "unicode": "ec64",
+      "unicode_decimal": 60516
+    },
+    {
+      "icon_id": "10331188",
+      "name": "cards",
+      "font_class": "cards1",
+      "unicode": "e68b",
+      "unicode_decimal": 59019
+    }
+  ]
+}

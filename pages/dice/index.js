@@ -54,7 +54,11 @@ Page({
   }, 
   changeFace:function(event){
     var dices = this.data.dices;
-    dices[event.target.dataset.dice].faces[event.target.dataset.face] = event.detail.value;
+    let value = Number(event.detail.value);
+    if (isNaN(value)) {
+      value = 1;
+    }
+    dices[event.target.dataset.dice].faces[event.target.dataset.face] = value;
     this.setData({
       dices: dices
     })
@@ -233,25 +237,25 @@ Page({
       self.data.results = [];
       //output
       self.data.results.push("------总值分布-------");
-      var keys = _.keys(totalMap);
+      var keys = _.keys(totalMap).sort(value=>value);
       _.each(keys, function (key) {
         this.data.results.push("总值" + key + "：" + totalMap[key] + "/" + sum + " " + (totalMap[key] / sum * 100).toFixed(4) + "%")
       }, self)
 
       self.data.results.push("------最大值分布-------");
-      keys = _.keys(maxMap);
+      keys = _.keys(maxMap).sort(value=>value);
       _.each(keys, function (key) {
         this.data.results.push("最大值" + key + "：" + maxMap[key] + "/" + sum + " " + (maxMap[key] / sum * 100).toFixed(4) + "%")
       }, self)
 
       self.data.results.push("------最小值分布-------");
-      keys = _.keys(minMap);
+      keys = _.keys(minMap).sort(value=>value);
       _.each(keys, function (key) {
         this.data.results.push("最大值" + key + "：" + minMap[key] + "/" + sum + " " + (minMap[key] / sum * 100).toFixed(4) + "%")
       }, self)
 
       self.data.results.push("------最大值减最小值分布-------");
-      keys = _.keys(diffMap);
+      keys = _.keys(diffMap).sort(value=>value);
       _.each(keys, function (key) {
         this.data.results.push("最大最小差值" + key + "：" + diffMap[key] + "/" + sum + " " + (diffMap[key] / sum * 100).toFixed(4) + "%")
       }, self)
@@ -264,13 +268,13 @@ Page({
       }, self)
 
       self.data.results.push("------相同数字只算一次，总值分布-------");
-      var keys = _.keys(sameCountOneTotalMap);
+      var keys = _.keys(sameCountOneTotalMap).sort(value=>value);
       _.each(keys, function (key) {
         this.data.results.push("总值" + key + "：" + sameCountOneTotalMap[key] + "/" + sum + " " + (sameCountOneTotalMap[key] / sum * 100).toFixed(4) + "%")
       }, self)
 
       self.data.results.push("------不计出现2次以上的数，总值分布-------");
-      var keys = _.keys(removeSameTotalMap);
+      var keys = _.keys(removeSameTotalMap).sort(value=>value);
       _.each(keys, function (key) {
         this.data.results.push("总值" + key + "：" + removeSameTotalMap[key] + "/" + sum + " " + (removeSameTotalMap[key] / sum * 100).toFixed(4) + "%")
       }, self)

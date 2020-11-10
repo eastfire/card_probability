@@ -1,25 +1,34 @@
 <!--index.wxml-->
 <view class="container">
   <view class="flex-wrp" >
-    <button class="flex-item" bindtap="add4" bindtap="addD4" disabled="{{dices.length>=8}}">+D4</button>
-    <button class="flex-item" bindtap="add6" bindtap="addD6" disabled="{{dices.length>=8}}">+D6</button>
-    <button class="flex-item" bindtap="add8" bindtap="addD8" disabled="{{dices.length>=8}}">+D8</button>
-    <button class="flex-item" bindtap="add10" bindtap="addD10" disabled="{{dices.length>=8}}">+D10</button>
-    <button class="flex-item" bindtap="add10" bindtap="addD12" disabled="{{dices.length>=8}}" hidden>+D12</button>
+    <van-button size="small" class="flex-item" bind:click="addD4" disabled="{{dices.length>=8}}" icon="plus">D4</van-button>
+    <van-button size="small" class="flex-item" bind:click="addD6" disabled="{{dices.length>=8}}" icon="plus">D6</van-button>
+    <van-button size="small" class="flex-item" bind:click="addD8" disabled="{{dices.length>=8}}" icon="plus">D8</van-button>
+    <van-button size="small" class="flex-item"  bind:click="addD10" disabled="{{dices.length>=8}}" icon="plus">D10</van-button>
+    <van-button size="small" class="flex-item" bind:click="addD12" disabled="{{dices.length>=8}}" icon="plus">D12</van-button>
   </view>
   <view wx:for="{{dices}}"  wx:for-index="diceIndex" wx:key="key1"> 
     <view class="dice flex-wrp">
       D{{item.faces.length}}
       <view class="faces" wx:for="{{item.faces}}" wx:for-index="faceIndex" wx:key="key2">
-        <input data-dice="{{diceIndex}}" data-face="{{faceIndex}}" class="flex-item face-input" type="number" value="{{item}}" bindinput="changeFace"/>
+        <input data-dice="{{diceIndex}}" data-face="{{faceIndex}}" class="flex-item face-input" type="text" value="{{item}}" bindinput="changeFace"/>
       </view>
       <text id="{{item.number}}" bindtap="delDice" class="del-dice">[-]</text>
     </view>    
   </view>
-  <button class="start-calculate" bindtap="startCalculate" disabled="{{dices.length<=0}}">开始计算</button>
-  <view wx:for="{{results}}" wx:key="i">
+  <van-button type="primary" block round plain size="small" class="start-calculate" bind:click="startCalculate" disabled="{{dices.length<=0}}" >开始计算</van-button>
+
+  <van-collapse >
+    <van-collapse-item wx:for="{{result}}"  wx:for-index="resultIndex" wx:key="key2" title="{{item.name}}" name="{{index}}">
+      <view class="result-item"  wx:for="{{item.list}}"  wx:for-index="resultIndex" wx:key="key2">
+        <view class="result-type">{{item2.type}} :</view>
+        <view class="result-value">{{item2.value}}%</view>
+      </view>
+    </van-collapse-item>
+  </van-collapse>
+  <!-- <view wx:for="{{results}}" wx:key="i">
     <text class="result-text">{{item}}</text>
-  </view>
+  </view> -->
 
   <view class="loading-mask" wx:if="{{loading}}">
     <text class="loading-text">计算中{{progress}}%\n请稍候...</text>

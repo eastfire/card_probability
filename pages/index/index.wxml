@@ -1,5 +1,12 @@
 <!--index.wxml-->
 <view class="container">
-  <button class="select-page" bindtap="toDice">骰子概率计算</button>
-  <button class="select-page" bindtap="toCard">卡牌概率计算</button>
+  <van-button size="large" class="select-page" bindtap="toDice">
+    <icon class="boardgame icon-dice2"/>
+    骰子概率计算
+  </van-button>
+  
+  <van-button size="large" class="select-page" bindtap="toCard">
+    <icon class="boardgame icon-poker"/>
+    卡牌概率计算
+  </van-button>
 </view>
