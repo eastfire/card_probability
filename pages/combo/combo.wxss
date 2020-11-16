@@ -1,0 +1,10 @@
+/* pages/combo.wxss */
+.top-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 8px;
+}
+.top-button {
+  margin: 0 4px;
+}

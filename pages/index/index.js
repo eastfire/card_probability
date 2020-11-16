@@ -17,6 +17,11 @@ Page({
     wx.navigateTo({
       url: '../card/index'
     })
+  },
+  toCombo: function () {
+    wx.navigateTo({
+      url: '../combo/combo'
+    })
   }
   
 })

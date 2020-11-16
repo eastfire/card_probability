@@ -7,7 +7,7 @@
     <van-button size="small" style="width:35px;margin:0 4px 0 0;" class="set-type" bind:click="changeSortOrder" icon="{{sortOrder}}"></van-button>
   </view>
   <view class="deck flex-wrp">
-    <view class="card flex-item"  wx:for="{{deck}}"  wx:for-index="cardIndex" wx:key="key1" catchtap="editCard" id="{{cardIndex}}">
+    <view class="card flex-item"  wx:for="{{deck}}"  wx:for-index="cardIndex" wx:key="cardIndex" catchtap="editCard" id="{{cardIndex}}">
       <text class="card-suit">{{['♠','♥','♣','♦','♤','♡','♧','♢'][item.suit]}}</text>
       <text class="card-number">{{item.number}}</text>
       <text class="copy-number">×{{item.copyNumber}}</text>
@@ -25,7 +25,7 @@
     <van-button round plain size="small" type="info" class="show-info" bind:click="showInfo" icon="info">说明</van-button>
   </view>
   <view class="result-list">
-    <view class="result-item"  wx:for="{{result}}"  wx:for-index="resultIndex" wx:key="key2">
+    <view class="result-item"  wx:for="{{result}}"  wx:for-index="resultIndex" wx:key="resultIndex">
       <view class="result-type">{{item.type}} :</view>
       <view class="result-value">{{item.value}}%</view>
     </view>
@@ -33,7 +33,7 @@
 
   <view class="dialog-mask" wx:if="{{isShowSetType}}">
     <checkbox-group bindchange="changeType" style="margin:8px;">
-      <view wx:for="{{judgeTypeArray}}" wx:for-index="index" wx:key="key3" class="type-checkbox">
+      <view wx:for="{{judgeTypeArray}}" wx:for-index="index" wx:key="index" class="type-checkbox">
         <label>
           <checkbox value='{{judgeTypeArray[index]}}' checked='{{judgeType[judgeTypeArray[index]]}}'/>{{judgeTypeArray[index]}}
         </label>
@@ -45,7 +45,7 @@
     <text class="dialog-title">{{setCardDialogType=="edit"?"编辑卡牌":"新建卡牌"}}</text>
     <view class="select-number"><text>牌面大小</text></view>
     <radio-group class="my-radio" bindchange="setCardNumber">
-      <label class="checkbox" wx:for="{{[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]}}">
+      <label class="checkbox" wx:for="{{[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]}}" wx:key="item">
         <radio value="{{item}}" checked="{{currentCardNumber==item}}" />
         {{item}}
       </label>
@@ -53,14 +53,14 @@
     
     <view class="select-number"><text>花色</text></view>
     <radio-group bindchange="setCardSuit">
-      <label class="checkbox" wx:for="{{[{name:'♠', value:0},{name:'♥', value:1},{name:'♣', value:2},{name:'♦', value:3},{name:'♤', value:4},{name:'♡', value:5},{name:'♧', value:6},{name:'♢', value:7}]}}">
+      <label class="checkbox" wx:for="{{[{name:'♠', value:0},{name:'♥', value:1},{name:'♣', value:2},{name:'♦', value:3},{name:'♤', value:4},{name:'♡', value:5},{name:'♧', value:6},{name:'♢', value:7}]}}" wx:key="index">
         <radio value="{{item.value}}" checked="{{currentCardSuit==item.value}}" />
         {{item.name}}
       </label>
     </radio-group>
     <view class="select-number"><text>牌数</text></view>
     <radio-group bindchange="setCardCopy">
-      <label class="checkbox" wx:for="{{[1,2,3,4]}}">
+      <label class="checkbox" wx:for="{{[1,2,3,4]}}" wx:key="item">
         <radio value="{{item}}" checked="{{currentCardCopy==item}}" />
         {{item}}张
       </label>
@@ -96,7 +96,7 @@
       </radio-group>
       <view class="select-number"><text>每种牌张数</text></view>
       <radio-group bindchange="selectCopy">
-        <label class="checkbox" wx:for="{{[1,2,3,4]}}"  wx:key="keyCopy">
+        <label class="checkbox" wx:for="{{[1,2,3,4]}}"  wx:key="item">
           <radio value="{{item}}" checked="{{deckCopy==item}}" />
           {{item}}
         </label>

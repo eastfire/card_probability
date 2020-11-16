@@ -9,4 +9,9 @@
     <icon class="boardgame icon-poker"/>
     卡牌概率计算
   </van-button>
+
+  <van-button size="large" class="select-page" bindtap="toCombo">
+    <icon class="boardgame icon-puzzle"/>
+    组合技概率计算
+  </van-button>
 </view>

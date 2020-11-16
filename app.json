@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/card/index",
-    "pages/dice/index"
+    "pages/dice/index",
+    "pages/combo"
   ],
   "window": {
     "backgroundTextStyle": "light",
