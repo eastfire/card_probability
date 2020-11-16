@@ -3,7 +3,7 @@
   <view class="property-list">
     <view wx:for="{{properties}}" wx:key="index" class="property">
       <text>{{item.name}}</text>
-      <van-button icon="minus" bind:click="removeProperty" size="tiny" plain data-index="{{index}}"/>
+      <van-button icon="cross" bind:click="removeProperty" size="tiny" plain data-index="{{index}}"/>
     </view>
   </view>
   <view style="display:flex;flex-direction:row">

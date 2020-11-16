@@ -24,7 +24,6 @@ Component({
   methods: {
     addProperty() {
       this.setData({mode: "input"})
-      
     },
     removeProperty(event) {
       let index = event.target.dataset.index;

@@ -12,7 +12,7 @@ Page({
     deck: [],
     result: [],
     flipNumber: 5,
-    combo: [],
+    combos: [],
     attribute: [],
     flipNumber: 5,
     totalNumber: 0
@@ -22,7 +22,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    var deck = wx.getStorageSync('comboDeck');
+    if ( !deck ) {
+      
+    } else {
+      this.setData({deck:deck});
+      this.calculateTotal();
+    }
   },
 
   /**
@@ -81,7 +87,13 @@ Page({
   addCard(){
 
   },
-
+  calculateTotal(){
+    var total = 0;
+    for (var i = 0; i < this.data.deck.length; i++ ) {
+      total += this.data.deck[i].copyNumber;
+    }
+    this.setData({ totalNumber: total})
+  },
   selectFilpNumber:function(){
     wx.showActionSheet({
       itemList: ["翻2张","翻3张","翻4张","翻5张","翻6张","翻7张"],
@@ -90,4 +102,12 @@ Page({
       }
     })
   },
+  startCalculate:function(){
+    wx.setStorageSync('comboDeck', this.data.deck)
+    
+  },
+  onClosePropertyDialog() {
+    console.log(getApp().globalData.properties)
+    wx.setStorageSync('properties', getApp().globalData.properties)
+  }
 })
