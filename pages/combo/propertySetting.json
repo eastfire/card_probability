@@ -1,7 +1,8 @@
 {
+  "component": true,
   "usingComponents": {
     "van-button": "@vant/weapp/button",
     "van-icon": "@vant/weapp/icon",
-    "van-dialog": "@vant/weapp/dialog"
+    "van-dialog": "@vant/weapp/dialog" 
   }
 }

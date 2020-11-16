@@ -1,0 +1,13 @@
+<!--pages/combo/propertySetting.wxml-->
+<view class="property-dialog">
+  <view class="property-list">
+    <view wx:for="{{properties}}" wx:key="index" class="property">
+      <text>{{item.name}}</text>
+      <van-button icon="minus" bind:click="removeProperty" size="tiny" plain data-index="{{index}}"/>
+    </view>
+  </view>
+  <view style="display:flex;flex-direction:row">
+    <input value="{{newProperty}}" bindblur="onInputProperty" size="small" wx:if="{{mode==='input'}}" focus="{{mode==='input'}}" />
+    <van-button icon="plus" bind:click="addProperty" size="small" plain wx:if="{{mode==='display'}}"/>
+  </view>
+</view>

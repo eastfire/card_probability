@@ -1,0 +1,20 @@
+/* pages/combo/propertySetting.wxss */
+.property-dialog {
+  padding: 8px;
+}
+
+.property-list {
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.property {
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+  border: 1px solid blue;
+  margin: 4px;
+  padding: 0px 8px 0px 8px;
+  border-radius: 4px;
+}

@@ -13,7 +13,7 @@
     show="{{ showPropertyDialog }}"
     bind:confirm="onClosePropertyDialog"
   >
-    
+    <property-setting-dialog />
   </van-dialog>
   <view class="deck flex-wrp">
     <view class="card flex-item"  wx:for="{{deck}}"  wx:for-index="cardIndex" wx:key="cardIndex" catchtap="editCard" id="{{cardIndex}}">

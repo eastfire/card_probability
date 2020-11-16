@@ -3,7 +3,7 @@
     "pages/index/index",
     "pages/card/index",
     "pages/dice/index",
-    "pages/combo"
+    "pages/combo/combo"
   ],
   "window": {
     "backgroundTextStyle": "light",

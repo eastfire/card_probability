@@ -1,4 +1,6 @@
 // pages/combo.js
+const _ = require('../../utils/underscore.js')._
+
 Page({
 
   /**
