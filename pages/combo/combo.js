@@ -9,6 +9,7 @@ Page({
   data: {
     showPropertyDialog: false,
     showComboDialog: false,
+    showCardDialog: false,
     deck: [],
     result: [],
     flipNumber: 5,
@@ -85,7 +86,7 @@ Page({
   },
 
   addCard(){
-
+    this.setData({showCardDialog:true})
   },
   calculateTotal(){
     var total = 0;

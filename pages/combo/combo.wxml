@@ -15,6 +15,14 @@
   >
     <property-setting-dialog />
   </van-dialog>
+  <van-dialog
+    use-slot
+    title="新建卡牌"
+    show="{{ showCardDialog }}"
+    bind:confirm="onCreateCard"
+  >
+    <card-dialog />
+  </van-dialog>
   <view class="deck flex-wrp">
     <view class="card flex-item"  wx:for="{{deck}}"  wx:for-index="cardIndex" wx:key="cardIndex" catchtap="editCard" id="{{cardIndex}}">
       <text class="card-name">{{item.name}}</text>
