@@ -10,6 +10,9 @@ Page({
     showPropertyDialog: false,
     showComboDialog: false,
     showCardDialog: false,
+    currentCard: null,
+    currentCardIndex: 0,
+    mode: null,
     deck: [],
     result: [],
     flipNumber: 5,
@@ -84,14 +87,82 @@ Page({
   onShowPropertyDialog(){
     this.setData({showPropertyDialog:true})
   },
-
-  addCard(){
-    this.setData({showCardDialog:true})
+  onShowComboDialog(){
+    this.setData({showComboDialog:true})
+  },
+  onAddCard(){
+    this.setData({showCardDialog:true, currentCard: {
+      name:"",
+      properties:[],
+      copyNumber:1
+    }, mode:"create" })
+    
+  },
+  onCurrentCardChange(event){
+    let card = event.detail;
+    this.setData({
+      currentCard: {
+        name: card.name,
+        properties: card.properties,
+        copyNumber: card.copyNumber
+      }
+    })
+  },
+  onConfirmCard(){
+    if ( this.data.mode ==="create") {
+      this.data.deck.push({
+        name: this.getNotDuplicatedName(this.data.currentCard.name),
+        properties: this.data.currentCard.properties,
+        copyNumber: this.data.currentCard.copyNumber,
+      })
+    } else {
+      this.data.deck[this.data.currentCardIndex]={
+        name: this.getNotDuplicatedName(this.data.currentCard.name, this.data.currentCardIndex),
+        properties: this.data.currentCard.properties,
+        copyNumber: this.data.currentCard.copyNumber,
+      }
+    }
+    this.setData({
+      showCardDialog: false,
+      deck: this.data.deck
+    })
+    wx.setStorageSync('comboDeck', this.data.deck)
+    this.calculateTotal();
+  },
+  onRemoveCard(){
+    this.data.deck.splice(this.data.currentCardIndex,1);
+    this.setData({
+      showCardDialog: false,
+      deck: this.data.deck
+    })
+    wx.setStorageSync('comboDeck', this.data.deck)
+    this.calculateTotal();
+  },
+  getNotDuplicatedName(name, meIndex=-1){
+    let n = name;
+    let index = 1;
+    while(_.some(this.data.deck, (card,index)=>{return card.name === n && meIndex!==index})){
+      n = name+index;
+      index++;
+    }
+    return n;
+  },
+  onEditCard(event){
+    let index = event.currentTarget.dataset.index;
+    let card = this.data.deck[index];
+    this.setData({
+      currentCardIndex: index,
+      showCardDialog:true, 
+      currentCard: {
+        name:card.name,
+        properties:_.clone(card.properties),
+        copyNumber:card.copyNumber}, 
+      mode:"edit" })
   },
   calculateTotal(){
     var total = 0;
     for (var i = 0; i < this.data.deck.length; i++ ) {
-      total += this.data.deck[i].copyNumber;
+      total += Number(this.data.deck[i].copyNumber);
     }
     this.setData({ totalNumber: total})
   },
@@ -104,7 +175,7 @@ Page({
     })
   },
   startCalculate:function(){
-    wx.setStorageSync('comboDeck', this.data.deck)
+    
     
   },
   onClosePropertyDialog() {

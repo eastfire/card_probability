@@ -1,2 +1,32 @@
 <!--pages/combo/newCard.wxml-->
-<text>pages/combo/newCard.wxml</text>
+<view>
+  <van-field
+    label="卡牌名"
+    model:value="{{ name }}"
+    placeholder="请输入卡牌名"
+    bind:change="onChangeValue"
+  />
+  <van-field
+    label="张数"
+    model:value="{{ copyNumber }}"
+    placeholder="请输入卡牌张数"
+    type="number"
+    bind:change="onChangeValue"
+  />
+  
+  <view class="property-list">
+    <view wx:for="{{card.properties}}" wx:key="index" class="property" data-index="{{index}}">
+      <picker 
+        mode="selector"
+        range="{{properties}}"
+        range-key="name"
+        bindchange="onConfirmPickProperty"
+        data-index="{{index}}">
+        <van-icon name="arrow-down" style="margin-right:4px"/>
+        <text>{{item.name}}</text>
+      </picker>
+      <van-button icon="cross" bind:click="onRemoveProperty" size="tiny" plain data-index="{{index}}"/>    
+    </view>
+  </view>
+  <van-button icon="plus" bind:click="addProperty" size="small" plain>添加属性</van-button>
+</view>

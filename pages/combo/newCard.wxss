@@ -1,1 +1,15 @@
 /* pages/combo/newCard.wxss */
+.property-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.property {
+  display:flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  border-radius: 4px;
+  border:1px solid blue;
+  margin: 4px;
+}

@@ -2,7 +2,7 @@
 <view class="container">
   <view class="top-bar">
     <van-button size="small" class="set-deck top-button" bind:click="onShowPropertyDialog" icon="diamond-o">设置属性库</van-button>
-    <van-button size="small" class="set-type top-button" bind:click="showComboDialog" icon="setting-o">
+    <van-button size="small" class="set-type top-button" bind:click="onShowComboDialog" icon="setting-o">
       设置组合技
     </van-button>
     
@@ -17,23 +17,36 @@
   </van-dialog>
   <van-dialog
     use-slot
-    title="新建卡牌"
+    title="{{mode==='create'?'新建卡牌':'编辑卡牌'}}"
     show="{{ showCardDialog }}"
-    bind:confirm="onCreateCard"
+    bind:confirm="onConfirmCard"
+    show-cancel-button="{{mode==='edit'}}"
+    cancel-button-text="删除"
+    bind:cancel="onRemoveCard"
   >
-    <card-dialog />
+    <card-dialog card="{{currentCard}}" bind:currentCardChange="onCurrentCardChange"/>
   </van-dialog>
-  <view class="deck flex-wrp">
-    <view class="card flex-item"  wx:for="{{deck}}"  wx:for-index="cardIndex" wx:key="cardIndex" catchtap="editCard" id="{{cardIndex}}">
+  <view class="deck-list flex-wrp">
+    <view class="card flex-item"
+      wx:for="{{deck}}"
+      wx:for-index="cardIndex"
+      wx:key="cardIndex"
+      catchtap="onEditCard"
+      id="{{cardIndex}}"
+      data-index="{{cardIndex}}">
       <text class="card-name">{{item.name}}</text>
-      <text class="card-property" wx:for="{{item.properties}}"  wx:for-index="propertyIndex" wx:for-item="property" wx:key="propertyIndex" >{{property.name}}</text>
+      <view class="card-property-list">
+        <text class="card-property" wx:for="{{item.properties}}"  wx:for-index="propertyIndex" wx:for-item="property" wx:key="propertyIndex" >{{property.name}}</text>
+      </view>
       <text class="copy-number">×{{item.copyNumber}}</text>
     </view>
-    <van-button class="add-card card" bind:click="addCard" icon="plus" size="small" round/>
+    <van-button class="add-card" bind:click="onAddCard" icon="plus" size="small" round>添加卡牌</van-button>
   </view>
 
   <view>
     <text class='total-number'>共{{totalNumber}}张</text>
     <van-button class='flip-number' bind:click="selectFilpNumber" size="small" round>翻{{flipNumber}}张</van-button>
   </view>
+
+  <van-button class="" bind:click="startCalculate" type="primary">开始计算</van-button>
 </view>
