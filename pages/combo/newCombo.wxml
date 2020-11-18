@@ -1,0 +1,42 @@
+<!--pages/combo/newCombo.wxml-->
+<view>
+  <van-field
+    label="组合技名"
+    model:value="{{ name }}"
+    placeholder="请输入组合技名"
+    bind:change="onChangeValue"
+  /> 
+  <view class="card-list">
+    <view wx:for="{{combo.cards}}" wx:key="index" class="card" data-index="{{index}}">
+      <picker 
+        mode="selector"
+        range="{{cards}}"
+        range-key="name"
+        bindchange="onConfirmPickCard"
+        data-index="{{index}}">
+        <van-icon name="arrow-down" style="margin-right:4px"/>
+        <text>{{item.name}}</text>
+      </picker>
+      <van-button icon="cross" bind:click="onRemoveCard" size="tiny" plain data-index="{{index}}"/>    
+    </view>
+  </view>
+  
+  <view class="property-list">
+    <view wx:for="{{combo.properties}}" wx:key="index" class="property" data-index="{{index}}">
+      <picker 
+        mode="selector"
+        range="{{properties}}"
+        range-key="name"
+        bindchange="onConfirmPickProperty"
+        data-index="{{index}}">
+        <van-icon name="arrow-down" style="margin-right:4px"/>
+        <text>{{item.name}}</text>
+      </picker>
+      <van-button icon="cross" bind:click="onRemoveProperty" size="tiny" plain data-index="{{index}}"/>    
+    </view>
+  </view>
+  <span style="padding:4px;">
+    <van-button style="margin-right: 8px;" icon="plus" bind:click="addCard" size="small" plain>添加需要的卡牌</van-button>
+    <van-button icon="plus" bind:click="addProperty" size="small" plain>添加需要的属性</van-button>
+  </span>
+</view>

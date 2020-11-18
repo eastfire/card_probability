@@ -3,7 +3,9 @@
     "van-button": "@vant/weapp/button",
     "van-icon": "@vant/weapp/icon",
     "van-dialog": "@vant/weapp/dialog",
+    "van-popup": "@vant/weapp/popup",
     "property-setting-dialog": "./propertySetting",
+    "combo-setting-dialog": "./comboSetting",
     "card-dialog": "./newCard"
   }
 }

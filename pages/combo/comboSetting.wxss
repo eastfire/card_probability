@@ -1,1 +1,48 @@
 /* pages/combo/comboSetting.wxss */
+.combo-dialog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width:100%;
+  height: 100%;
+  justify-content: space-between;
+  padding: 8px;
+}
+.combo-list {
+  margin-top: 8px;
+  padding: 8px;
+  width: 90%;
+}
+.combo {
+  padding: 0 8px 8px 8px;
+  border: 1px solid red;
+  border-radius: 4px;
+  margin-top:4px;
+}
+.combo-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-list, .card-property-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.card-property {
+  border-radius: 4px;
+  margin-right: 4px;
+  margin-top:4px;
+  padding: 2px;
+  border: 1px solid blue;
+}
+.card-name {
+  border: 1px solid gray;
+  border-radius: 4px;
+  margin-right: 4px;
+  padding: 2px;
+  margin-top:4px;
+}

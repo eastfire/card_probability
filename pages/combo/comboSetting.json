@@ -2,6 +2,8 @@
   "component": true,
   "usingComponents": {
     "van-button": "@vant/weapp/button",
-    "van-icon": "@vant/weapp/icon"
+    "van-icon": "@vant/weapp/icon",
+    "van-dialog": "@vant/weapp/dialog",
+    "combo-edit-dialog":"./newCombo"
   }
 }

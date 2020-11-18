@@ -9,6 +9,18 @@
   margin: 0 4px;
 }
 
+.bottom-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width:100%;
+}
+
+.start-calculate {
+  margin-top: 16px;
+}
+
 .deck-list {
   display: flex;
   flex-direction: row;

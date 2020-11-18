@@ -1,0 +1,24 @@
+/* pages/combo/newCombo.wxss */
+.property, .card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.card-list, .property-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.property {
+  border-radius: 4px;
+  margin: 4px;
+  border: 1px solid blue;
+}
+.card {
+  border: 1px solid gray;
+  border-radius: 4px;
+  margin: 4px;
+}

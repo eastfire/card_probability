@@ -90,6 +90,9 @@ Page({
   onShowComboDialog(){
     this.setData({showComboDialog:true})
   },
+  onCloseComboDialog(){
+    this.setData({showComboDialog:false})
+  },
   onAddCard(){
     this.setData({showCardDialog:true, currentCard: {
       name:"",

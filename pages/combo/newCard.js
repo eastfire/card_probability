@@ -19,10 +19,12 @@ Component({
   },
   observers:{
     card(){
-      this.setData({
-        name: this.data.card.name,
-        copyNumber: this.data.card.copyNumber
-      })
+      if ( this.data.card ) {
+        this.setData({
+          name: this.data.card.name,
+          copyNumber: this.data.card.copyNumber
+        })
+      }
     }
   },
   /**

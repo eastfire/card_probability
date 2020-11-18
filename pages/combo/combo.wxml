@@ -24,8 +24,20 @@
     cancel-button-text="删除"
     bind:cancel="onRemoveCard"
   >
-    <card-dialog card="{{currentCard}}" bind:currentCardChange="onCurrentCardChange"/>
+    <card-dialog 
+      card="{{currentCard}}" 
+      bind:currentCardChange="onCurrentCardChange"/>
   </van-dialog>
+
+  <van-popup
+    show="{{ showComboDialog }}"
+    bind:close="onCloseComboDialog"
+    closeable
+    custom-style="height: 100%"
+    position="top">
+    <combo-setting-dialog cards="{{deck}}" />
+  </van-popup>
+
   <view class="deck-list flex-wrp">
     <view class="card flex-item"
       wx:for="{{deck}}"
@@ -40,13 +52,14 @@
       </view>
       <text class="copy-number">×{{item.copyNumber}}</text>
     </view>
-    <van-button class="add-card" bind:click="onAddCard" icon="plus" size="small" round>添加卡牌</van-button>
+    
   </view>
 
-  <view>
+  <view class="bottom-bar">
+    <van-button class="add-card" bind:click="onAddCard" icon="plus" size="small" round>添加卡牌</van-button>
     <text class='total-number'>共{{totalNumber}}张</text>
     <van-button class='flip-number' bind:click="selectFilpNumber" size="small" round>翻{{flipNumber}}张</van-button>
   </view>
 
-  <van-button class="" bind:click="startCalculate" type="primary">开始计算</van-button>
+  <van-button class="start-calculate" bind:click="startCalculate" type="primary" size="small">开始计算</van-button>
 </view>
