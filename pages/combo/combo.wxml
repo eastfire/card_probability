@@ -63,4 +63,17 @@
   </view>
 
   <van-button class="start-calculate" bind:click="startCalculate" type="primary" size="small">开始计算</van-button>
+
+  <view class="result-list">
+    <view class="result-item"  wx:for="{{result}}"  wx:for-index="resultIndex" wx:key="resultIndex">
+      <view class="result-type">{{item.type}} :</view>
+      <view class="result-value">{{item.value}}%</view>
+    </view>
+  </view>
+  
+  <van-overlay show="{{loading}}">
+    <view class="loading-wrapper">
+      <text class="loading-content">计算中：{{progress}}%</text>
+    </view>
+  </van-overlay>
 </view>

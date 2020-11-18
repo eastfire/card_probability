@@ -4,6 +4,7 @@
     "van-icon": "@vant/weapp/icon",
     "van-dialog": "@vant/weapp/dialog",
     "van-popup": "@vant/weapp/popup",
+    "van-overlay": "@vant/weapp/overlay",
     "property-setting-dialog": "./propertySetting",
     "combo-setting-dialog": "./comboSetting",
     "card-dialog": "./newCard"

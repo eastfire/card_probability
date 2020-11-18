@@ -1,6 +1,6 @@
 // pages/combo.js
 const _ = require('../../utils/underscore.js')._
-
+import {countBy} from "../../libs/lodash";
 Page({
 
   /**
@@ -21,7 +21,10 @@ Page({
     flipNumber: 5,
     totalNumber: 0,
 
-    properties: [] //全局的属性
+    properties: [], //全局的属性
+
+    loading: false,
+    progress: "",
   },
 
   /**
@@ -30,7 +33,9 @@ Page({
   onLoad: function (options) {
     var deck = wx.getStorageSync('comboDeck');
     if ( !deck ) {
-      
+      this.setData({
+        deck:[{"name":"轻脚","properties":[{"name":"K"}],"copyNumber":"4"},{"name":"重脚","properties":[{"name":"K"},{"name":"K"}],"copyNumber":"4"},{"name":"轻拳","properties":[{"name":"P"}],"copyNumber":"4"},{"name":"重拳","properties":[{"name":"P"},{"name":"P"}],"copyNumber":"4"},{"name":"无关","properties":[],"copyNumber":"100"}]
+      })
     } else {
       this.setData({deck:deck});
       this.calculateTotal();
@@ -182,9 +187,96 @@ Page({
       }
     })
   },
+  
   startCalculate:function(){
+    this.combos = [];
+    getApp().globalData.combos.forEach(combo=>{
+      this.combos.push({
+        name: combo.name,
+        requirements: countBy(combo.requirements,item=>{
+          return "{"+item.type+"}"+item.name
+        })
+      })
+    })
+
+    var realDeck = [];
+    for (var i = 0; i < this.data.deck.length; i++) {
+      var card = this.data.deck[i];
+      for ( var j = 0; j < card.copyNumber; j++)
+        realDeck.push({ name: card.name, properties: card.properties })
+    }
+    let types = {};
+    this.setData({ loading: true, progress: "" });
+    var self = this;
+    var progress = 0;
+    var sampleCount = 1000000;
+
+    var clusterCalculate = function () {
+      var inner_progress = 0;
+      do {
+        var cards = _.sample(realDeck, self.data.flipNumber);
+        
+        self.judgeComboType(types, cards);
+        progress++
+        inner_progress++
+      } while (inner_progress < 10000 && progress < sampleCount)
+      if (progress < sampleCount) {
+        self.setData({ progress: (progress / sampleCount * 100).toFixed(2) })
+        setTimeout(clusterCalculate, 1);
+      } else {
+        self.outputResult(sampleCount, types);
+      }
+    }
     
-    
+    clusterCalculate();
+
+  },
+  judgeComboType(types, cards) {
+    let array = [];
+    cards.forEach(card=>{
+      array.push({
+        type: "card",
+        name: card.name
+      })
+      card.properties.forEach(property=>{
+        array.push({
+          type:"property",
+          name: property.name
+        })
+      })     
+    })
+    let provide = countBy(array,item=>{
+      return "{"+item.type+"}"+item.name
+    })
+    this.combos.forEach(combo=>{
+      let pass = true;
+      for(let key in combo.requirements){
+        if (provide[key]===undefined || provide[key] < combo.requirements[key]){
+          pass = false;
+          break;
+        }
+      }
+      if ( pass ) {
+        if ( types[combo.name] ) {
+          types[combo.name] ++
+        } else {
+          types[combo.name] =1;
+        }
+        
+      }
+    })
+  },
+  outputResult(total, types){
+    var result = [];
+    for (var key in types) {
+      if (types[key] > 0) {
+        result.push({ type: key, value: Math.round(types[key] / total * 100000) / 1000, count: types[key] });
+      }
+    }
+    result = _.sortBy(result, function (item) {
+      return item.count;
+    })
+    this.setData({ result: result, loading: false });
   },
   onClosePropertyDialog() {
     this.setData({
