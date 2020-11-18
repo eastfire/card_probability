@@ -6,7 +6,9 @@ Component({
   properties: {
     combo: {
       type:Object,
-      default: {}
+      default: {
+        requirements:[]
+      }
     },
     cards: {
       type:Array,
@@ -37,7 +39,7 @@ Component({
   methods: {
     onConfirmPickCard(event){
       let index = event.target.dataset.index;
-      this.data.combo.cards[index].name = this.data.cards[event.detail.value].name;
+      this.data.combo.requirements[index].name = this.data.cards[event.detail.value].name;
       this.setData({
         combo: this.data.combo
       })
@@ -45,7 +47,8 @@ Component({
     },
 
     addCard(){
-      this.data.combo.cards.push({
+      this.data.combo.requirements.push({
+        type:"card",
         name: this.data.cards[0].name
       })
       this.setData({
@@ -53,9 +56,9 @@ Component({
       })
       this.triggerEvent("currentComboChange",this.data.combo)
     },
-    onRemoveCard(event){
+    onRemoveRequire(event){
       let index = event.target.dataset.index;
-      this.data.combo.cards.splice(index,1);
+      this.data.combo.requirements.splice(index,1);
       this.setData({
         combo:this.data.combo
       })
@@ -63,7 +66,7 @@ Component({
     },
     onConfirmPickProperty(event){
       let index = event.target.dataset.index;
-      this.data.combo.properties[index].name = this.data.properties[event.detail.value].name;
+      this.data.combo.requirements[index].name = this.data.properties[event.detail.value].name;
       this.setData({
         combo: this.data.combo
       })
@@ -71,7 +74,8 @@ Component({
     },
 
     addProperty(){
-      this.data.combo.properties.push({
+      this.data.combo.requirements.push({
+        type:"property",
         name: getApp().globalData.properties[0].name
       })
       this.setData({
@@ -79,15 +83,7 @@ Component({
         combo: this.data.combo
       })
       this.triggerEvent("currentComboChange",this.data.combo)
-    },
-    onRemoveProperty(event){
-      let index = event.target.dataset.index;
-      this.data.combo.properties.splice(index,1);
-      this.setData({
-        combo:this.data.combo
-      })
-      this.triggerEvent("currentComboChange",this.data.combo)
-    },
+    },    
     onChangeValue(){
       this.data.combo.name = this.data.name;
       this.setData({

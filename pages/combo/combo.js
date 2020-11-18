@@ -13,13 +13,15 @@ Page({
     currentCard: null,
     currentCardIndex: 0,
     mode: null,
-    deck: [],
+    deck: [], //全局的card
     result: [],
     flipNumber: 5,
-    combos: [],
+    combos: [], //全局的combo
     attribute: [],
     flipNumber: 5,
-    totalNumber: 0
+    totalNumber: 0,
+
+    properties: [] //全局的属性
   },
 
   /**
@@ -33,6 +35,9 @@ Page({
       this.setData({deck:deck});
       this.calculateTotal();
     }
+    this.setData({
+      properties: getApp().globalData.properties
+    });
   },
 
   /**
@@ -182,7 +187,9 @@ Page({
     
   },
   onClosePropertyDialog() {
-    console.log(getApp().globalData.properties)
+    this.setData({
+      properties: getApp().globalData.properties
+    });
     wx.setStorageSync('properties', getApp().globalData.properties)
   }
 })

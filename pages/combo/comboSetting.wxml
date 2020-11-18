@@ -7,11 +7,14 @@
         bindtap="onEditCombo" data-index="{{index}}">
         <view class="combo-title">
           <text>{{item.name}}</text>
-          <van-button icon="cross" bind:click="onRemoveCombo" size="tiny" plain data-index="{{index}}"/>
+          <van-button icon="cross" catchtap="onRemoveCombo" size="tiny" plain data-index="{{index}}"/>
         </view>      
         <view class="card-list">
-          <text class="card-name" wx:for="{{item.cards}}"  wx:for-index="cardIndex" wx:for-item="card" wx:key="cardIndex" >{{card.name}}</text>
-          <text class="card-property" wx:for="{{item.properties}}"  wx:for-index="propertyIndex" wx:for-item="property" wx:key="propertyIndex" >{{property.name}}</text>
+          <view class="{{requirement.type}}"
+            wx:for="{{item.requirements}}"
+            wx:for-index="cardIndex"
+            wx:for-item="requirement"
+            wx:key="cardIndex" >{{requirement.name}}</view>
         </view>
       </view>
     </view>

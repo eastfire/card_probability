@@ -31,8 +31,7 @@ Component({
       this.setData({
         currentCombo: {
           name: combo.name,
-          properties: combo.properties,
-          cards: combo.cards
+          requirements: combo.requirements
         }
       })
     },
@@ -40,14 +39,12 @@ Component({
       if ( this.data.mode ==="create") {
         this.data.combos.push({
           name: this.getNotDuplicatedName(this.data.currentCombo.name),
-          properties: this.data.currentCombo.properties,
-          cards: this.data.currentCombo.cards,
+          requirements: this.data.currentCombo.requirements,
         })
       } else {
         this.data.combos[this.data.currentComboIndex]={
           name: this.getNotDuplicatedName(this.data.currentCombo.name, this.data.currentComboIndex),
-          properties: this.data.currentCombo.properties,
-          cards: this.data.currentCombo.cards,
+          requirements: this.data.currentCombo.requirements,
         }
       }
       this.setData({
@@ -68,8 +65,7 @@ Component({
       this.setData({
         currentCombo: {
           name:"",
-          cards:[],
-          properties:[]
+          requirements:[]
         },
         showComboEditDialog:true,
         mode:"create"
@@ -81,8 +77,7 @@ Component({
       this.setData({
         currentCombo: {
           name:combo.name,
-          cards:_.clone(combo.cards),
-          properties:_.clone(combo.properties),
+          requirements:_.clone(combo.requirements),
         },
         currentComboIndex: index,
         showComboEditDialog:true,

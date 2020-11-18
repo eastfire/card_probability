@@ -26,6 +26,7 @@
   >
     <card-dialog 
       card="{{currentCard}}" 
+      properties="{{properties}}"
       bind:currentCardChange="onCurrentCardChange"/>
   </van-dialog>
 

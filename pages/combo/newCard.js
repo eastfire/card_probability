@@ -4,6 +4,9 @@ Component({
    * 组件的属性列表
    */
   properties: {
+    properties:{
+      type:Array
+    },
     card:{
       type:Object
     }
@@ -13,7 +16,6 @@ Component({
    * 组件的初始数据
    */
   data: {
-    properties:[],
     name: "",
     copyNumber: 1
   },
@@ -45,7 +47,6 @@ Component({
         name: getApp().globalData.properties[0].name
       })
       this.setData({
-        properties: getApp().globalData.properties,
         card: this.data.card
       })
       this.triggerEvent("currentCardChange",this.data.card)
