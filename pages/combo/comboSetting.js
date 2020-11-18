@@ -54,7 +54,8 @@ Component({
       wx.setStorageSync('combos', this.data.combos)
     },
     onRemoveCombo(event){
-      this.data.combos.splice(this.data.currentComboIndex,1);
+      let index = event.currentTarget.dataset.index;
+      this.data.combos.splice(index,1);
       this.setData({
         showComboEditDialog: false,
         combos: this.data.combos

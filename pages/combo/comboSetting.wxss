@@ -6,7 +6,6 @@
   width:100%;
   height: 100%;
   justify-content: space-between;
-  padding: 8px;
 }
 .combo-list {
   margin-top: 8px;
@@ -45,4 +44,8 @@
   margin-right: 4px;
   padding: 2px;
   margin-top:4px;
+}
+
+.add-combo-button {
+  margin-bottom: 16px;
 }

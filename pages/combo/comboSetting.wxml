@@ -30,5 +30,6 @@
       cards="{{cards}}"
       bind:currentComboChange="onCurrentComboChange"/>
   </van-dialog>
-  <van-button icon="plus" bind:click="onAddCombo" size="small" type="primary">创建组合技</van-button>
+
+  <van-button class="add-combo-button" icon="plus" bind:click="onAddCombo" size="small" type="primary">创建组合技</van-button>
 </view>
