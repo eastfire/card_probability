@@ -46,6 +46,9 @@ Page({
       "4顺子": true,
       "3顺子": true,
       "2顺子": true,
+      "5彩虹顺": true,
+      "4彩虹顺": true,
+      "3彩虹顺": true,
       "5同花": true,
       "4同花": true,
       "3同花": true, 
@@ -272,6 +275,9 @@ Page({
       "4顺子": 0,
       "3顺子": 0,
       "2顺子": 0,
+      "5彩虹顺": 0,
+      "4彩虹顺": 0,
+      "3彩虹顺": 0,
       "5同花": 0,
       "4同花":0,
       "3同花": 0,      
@@ -417,6 +423,9 @@ Page({
       if (this.data.judgeType["5同花顺"] && flushCount === 5) {
         types["5同花顺"]++;
         found = true;
+      } else if (this.data.flipNumber === 5 && this.data.judgeType["5彩虹顺"] && suitStatus.suitCount === 5) {
+        types["5彩虹顺"]++;
+        found = true;
       } else if (this.data.judgeType["5顺子"] ) {
         types["5顺子"]++;
         found = true;
@@ -425,6 +434,9 @@ Page({
       if (this.data.judgeType["4同花顺"] && flushCount === 4 && cardCount===4) {
         types["4同花顺"]++;
         found = true;
+      } else if (this.data.flipNumber === 4 && this.data.judgeType["4彩虹顺"] && suitStatus.suitCount === 4) {
+        types["4彩虹顺"]++;
+        found = true;
       } else if (this.data.judgeType["4顺子"] ) {
         types["4顺子"]++;
         found = true;
@@ -432,6 +444,9 @@ Page({
     } else if (straightCount === 3) {
       if (this.data.judgeType["3同花顺"] && flushCount === 3&& cardCount===3) {
         types["3同花顺"]++;
+        found = true;
+      } else if (this.data.flipNumber === 3 && this.data.judgeType["3彩虹顺"] && suitStatus.suitCount === 4) {
+        types["3彩虹顺"]++;
         found = true;
       } else if (this.data.judgeType["3顺子"] ) {
         types["3顺子"]++;
