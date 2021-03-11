@@ -8,6 +8,7 @@ Page({
   data: {
     deck: [],
     result: [],
+    numberResult: [],
     totalNumber : 0,
     flipNumber: 5,
     biggest:0,
@@ -49,6 +50,7 @@ Page({
       "4同花": true,
       "3同花": true, 
       "2同花": true, 
+      "出现全部花色": true
     },
     judgeTypeArray:[]
   },
@@ -273,9 +275,11 @@ Page({
       "5同花": 0,
       "4同花":0,
       "3同花": 0,      
-      "2同花": 0,      
+      "2同花": 0, 
+      "出现全部花色": 0,
       "杂牌": 0
     };
+    let numberTotals = {};
     this.STRAIGHT5_LIST = [];
     for ( var i = this.data.smallest; i <= this.data.biggest - 4; i++ ) {
       this.STRAIGHT5_LIST.push([i, i+1, i+2, i+3, i+4].toString())
@@ -321,6 +325,7 @@ Page({
           return card.number * 100 + card.suit;
         })
         self.judgeCardType(types, cards);
+        self.calculateNumberTotals(numberTotals, cards);
         progress++
         inner_progress++
       } while (inner_progress < 10000 && progress < sampleCount)
@@ -328,13 +333,13 @@ Page({
         self.setData({ progress: (progress / sampleCount * 100).toFixed(2) })
         setTimeout(clusterCalculate, 1);
       } else {
-        self.outputResult(sampleCount, types);
+        self.outputResult(sampleCount, types, numberTotals);
       }
     }
     
     clusterCalculate();
   },
-  outputResult(total, types){
+  outputResult(total, types, numberTotals){
     var result = [];
     for (var key in types) {
       if (types[key] > 0) {
@@ -344,7 +349,27 @@ Page({
     result = _.sortBy(result, function (item) {
       return item.count;
     })
-    this.setData({ result: result, loading: false });
+    var result2 = [];
+    for (var key in numberTotals) {
+      if (numberTotals[key] > 0) {
+        result2.push({ type: key, value: Math.round(numberTotals[key] / total * 100000) / 1000, count: numberTotals[key] });
+      }
+    }
+    result2 = _.sortBy(result2, function (item) {
+      return new Number(item.type);
+    })
+    this.setData({ result: result, numberResult: result2, loading: false });    
+  },
+  calculateNumberTotals:function(numberTotals, cards) {
+    let total = 0;
+    cards.forEach(card=>{
+      total+=card.number;
+    })
+    if ( numberTotals[total] ) {
+      numberTotals[total] ++;
+    } else {
+      numberTotals[total] = 1;
+    }
   },
   judgeCardType:function(types, cards) {
     var found = false;
@@ -367,7 +392,8 @@ Page({
       types["1对"]++;
       found = true;
     }
-    var flushCount = this.getFlushCount(cards);
+    let suitStatus = this.getFlushCount(cards);
+    var flushCount = suitStatus.flushCount;
     if (this.data.judgeType["5同花"] && flushCount === 5) {
       types["5同花"]++;
       found = true;
@@ -379,6 +405,10 @@ Page({
       found = true;
     } else if (this.data.judgeType["2同花"] && flushCount === 2) {
       types["2同花"]++;
+      found = true;
+    }
+    if (this.data.judgeType["出现全部花色"] && suitStatus.suitCount === this.data.deckSuit) {
+      types["出现全部花色"]++;
       found = true;
     }
     let cardCount = cards.length;
@@ -473,8 +503,17 @@ Page({
     var suits = [0,0,0,0,0,0,0,0]
     _.each(cards,function(card){
       suits[card.suit]++;
-    })    
-    return _.max(suits);
+    })
+    let suitCount = 0;
+    suits.forEach(s=>{
+      if ( s!==0) {
+        suitCount++;
+      }
+    })
+    return {
+      flushCount: _.max(suits),
+      suitCount: suitCount
+    };
   },
   getStraightCount: function(cards) {
     var v = _.uniq(_.map(cards, function (card) {

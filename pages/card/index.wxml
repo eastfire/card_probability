@@ -29,6 +29,11 @@
       <view class="result-type">{{item.type}} :</view>
       <view class="result-value">{{item.value}}%</view>
     </view>
+    <div wx:if="{{numberResult.length}}">——————总值分布——————</div>
+    <view class="result-item"  wx:for="{{numberResult}}"  wx:for-index="resultIndex" wx:key="resultIndex">
+      <view class="result-type">总值{{item.type}} :</view>
+      <view class="result-value">{{item.value}}%</view>
+    </view>
   </view>
 
   <view class="dialog-mask" wx:if="{{isShowSetType}}">

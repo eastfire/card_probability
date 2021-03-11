@@ -60,7 +60,7 @@
 }
 
 .result-type {
-  width: 100px;
+  width: 120px;
 }
 
 .result-item {
