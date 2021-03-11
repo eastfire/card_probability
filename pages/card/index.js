@@ -53,7 +53,7 @@ Page({
       "4同花": true,
       "3同花": true, 
       "2同花": true, 
-      "出现全部花色": true
+      "出现全部花色/全部不同花色": true
     },
     judgeTypeArray:[]
   },
@@ -282,7 +282,7 @@ Page({
       "4同花":0,
       "3同花": 0,      
       "2同花": 0, 
-      "出现全部花色": 0,
+      "出现全部花色/全部不同花色": 0,
       "杂牌": 0
     };
     let numberTotals = {};
@@ -413,8 +413,9 @@ Page({
       types["2同花"]++;
       found = true;
     }
-    if (this.data.judgeType["出现全部花色"] && suitStatus.suitCount === this.data.deckSuit) {
-      types["出现全部花色"]++;
+    if (this.data.judgeType["出现全部花色/全部不同花色"] && (suitStatus.suitCount === this.data.deckSuit 
+      || (suitStatus.suitCount===this.data.flipNumber))) {
+      types["出现全部花色/全部不同花色"]++;
       found = true;
     }
     let cardCount = cards.length;
