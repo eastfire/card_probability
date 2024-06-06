@@ -39,22 +39,16 @@
   "libVersion": "2.12.2",
   "appid": "wxc68b7d4cdd651063",
   "projectname": "wx_card_probability",
-  "isGameTourist": false,
   "simulatorType": "wechat",
+  "lazyCodeLoading": "requiredComponents",
   "simulatorPluginLibVersion": {},
-  "condition": {
-    "search": {
-      "list": []
-    },
-    "conversation": {
-      "list": []
-    },
-    "game": {
-      "currentL": -1,
-      "list": []
-    },
-    "miniprogram": {
-      "list": []
-    }
+  "condition": {},
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
   }
 }

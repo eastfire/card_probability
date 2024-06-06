@@ -122,15 +122,16 @@ Page({
       deck: deck,
       isShowSetCard: false
     });
+    this.calculateTotal()
   },
   setCardNumber(e){
-    this.setData({currentCardNumber:e.detail.value})
+    this.setData({currentCardNumber:parseInt(e.detail.value)})
   },
   setCardSuit(e){
-    this.setData({ currentCardSuit: e.detail.value })
+    this.setData({ currentCardSuit: parseInt(e.detail.value) })
   },
   setCardCopy(e){
-    this.setData({ currentCardCopy: e.detail.value })
+    this.setData({ currentCardCopy: parseInt(e.detail.value) })
   },
 
   showSetType(){
@@ -159,6 +160,10 @@ Page({
     var biggest = 0;
     var smallest = 100;
     for (var i = 0; i < this.data.deck.length; i++ ) {
+      //修复之前保留的错误数据
+      this.data.deck[i].copyNumber = parseInt(this.data.deck[i].copyNumber)
+      this.data.deck[i].number = parseInt(this.data.deck[i].number)
+
       total += this.data.deck[i].copyNumber;
       var number = this.data.deck[i].number
       if (number > biggest ) {
